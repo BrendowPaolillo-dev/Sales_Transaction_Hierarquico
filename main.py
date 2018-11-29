@@ -1,4 +1,8 @@
 import csv
+import numpy as np
+import scipy.cluster.hierarchy as sch
+from scipy.spatial.distance import pdist
+from matplotlib import pyplot as plt
 
 def get_data():
     newfile = open ("noheadertable.txt", "r+")
@@ -18,6 +22,15 @@ def get_data():
 
 def main():
     data = get_data()
-    print data[0]
+    data = np.array(data)
+    print data
+    X = pdist(data, 'euclidean')
+    print X
+    Z = sch.linkage(X, 'single')
+    print Z
+    fig = plt.figure(figsize=(25, 10))
+    dn = sch.dendrogram(Z)
+    plt.show()
+    
 if __name__ =='__main__':
     main()
