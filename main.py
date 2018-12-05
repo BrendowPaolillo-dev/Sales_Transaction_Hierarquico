@@ -37,31 +37,30 @@ def main():
         for j in range(len(data[i])):
             data[i][j] = data[i][j]/s
 
-#######################################################
 #separando o produto 1 em 13 meses
 
     #final= []
-    #for i in range (len (data)):
-    teste = []
-    for j in range (len(data[1])):
-        if ((j%4)== 0):
-            start = j
-        if ((j % 4 )== 3):
-            end = j
-            teste.append(data[i, start:end+1])
-            print teste
-        print len(teste)
-    print teste[0][1]
-#######################################################
-    X = pdist(teste, 'euclidean')
-    #print len(X)
-    Z = sch.linkage(X, 'average')
-    #print Z
-    #print len(Z[0])
-    
-    fig = plt.figure(figsize=(25, 10))
-    dn = sch.dendrogram(Z)
-    plt.show()
+    end = 0
+    for i in range (len (data)):
+        tab_month = [] #tabela de tabelas de meses por relacao de venda de cada produto no mes
+        for j in range (len(data[i])):
+            if ((j%4)== 0):
+                start = j
+            if ((j % 4 )== 3):
+                end = j
+                tab_month.append(data[:, start:end+1])
+
+    for i in range (len(tab_month)):
+        aux = tab_month[i]
+        X = pdist(aux, 'euclidean')
+        #print len(X)
+        Z = sch.linkage(X, 'average')
+        #print Z
+        #print len(Z[0])
+
+        fig = plt.figure(figsize=(25, 10))
+        dn = sch.dendrogram(Z)
+        plt.show()
 
 if __name__ =='__main__':
     main()
