@@ -17,26 +17,47 @@ def get_data():
             for j in range (1, 53):
                 vector.append(float(row[j]))
             aux_list.append(vector)
-    for i in range (len(aux_list)-1):    
+    for i in range (len(aux_list)):    
         newfile.write(str(aux_list[i]))
     newfile.close()
     return aux_list
 
 def main():
+    #chamada da funcao que retorna lista da base de dados de cada produto pelas 52 semanas
     data = get_data()
     data = np.array(data)
+    
+    #normalizacao dos dados
+    for i in range(len(data)):
+        s = 0 #soma total dos valores
+        j = 0
+        for j in range(len(data[i])):
+            s += data[i][j]
+        j = 0
+        for j in range(len(data[i])):
+            data[i][j] = data[i][j]/s
 
-    for j in range(len(data)):
-        s = 0
-        i = 0
-        for i in range(len(data[j])):
-            s += data[j][i]
-        i = 0
-        for i in range(len(data[j])):
-            data[j][i] = data[j][i]/s
+#######################################################
+#separando o produto 1 em 13 meses
 
-    X = pdist(data, 'euclidean')
+    #final= []
+    #for i in range (len (data)):
+    teste = []
+    for j in range (len(data[1])):
+        if ((j%4)== 0):
+            start = j
+        if ((j % 4 )== 3):
+            end = j
+            teste.append(data[i, start:end+1])
+            print teste
+        print len(teste)
+    print teste[0][1]
+#######################################################
+    X = pdist(teste, 'euclidean')
+    #print len(X)
     Z = sch.linkage(X, 'average')
+    #print Z
+    #print len(Z[0])
     
     fig = plt.figure(figsize=(25, 10))
     dn = sch.dendrogram(Z)
